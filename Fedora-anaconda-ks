@@ -1,0 +1,101 @@
+# kickstart template for Fedora 8 and later.
+# (includes %end blocks)
+# do not use with earlier distros
+
+#platform=x86, AMD64, or Intel EM64T
+# System authorization information
+auth  --useshadow  --enablemd5
+# System bootloader configuration
+bootloader --location=mbr
+# Partition clearing information
+clearpart --all --initlabel
+# Use text mode install
+text
+# Firewall configuration
+firewall --disable
+# Run the Setup Agent on first boot
+firstboot --disable
+# System keyboard
+keyboard us
+# System language
+lang en_US
+# Use network installation
+url --url=$tree
+# If any cobbler repo definitions were referenced in the kickstart profile, include them here.
+$yum_repo_stanza
+# Network information
+$SNIPPET('network_config')
+# Reboot after installation
+reboot
+
+#Root password
+rootpw --iscrypted $default_password_crypted   #md5加密的密码串，默认保存在/etc/cobbler/settings
+# SELinux configuration
+selinux --disabled
+# Do not configure the X Window System
+skipx
+# System timezone
+timezone  Asia/Chongqing
+# Install OS instead of upgrade
+install
+# Clear the Master Boot Record
+zerombr
+# Allow anaconda to partition the system as needed
+part pv.01 --grow --size=1            
+part /boot --fstype=ext4 --size=400
+part /boot/efi --fstype=efi --size 200   #EFI模式需要创建该分区
+volgroup VolGroup --pesize=4096 pv.01
+logvol / --fstype=ext4 --name=lv_root --vgname=VolGroup --grow --size=1024 --maxsize=51200
+logvol swap --name=lv_swap --vgname=VolGroup --grow --size=1984 --maxsize=4096
+
+
+%pre
+$SNIPPET('log_ks_pre')
+$SNIPPET('kickstart_start')
+$SNIPPET('pre_install_network_config')
+# Enable installation monitoring
+$SNIPPET('pre_anamon')
+%end
+
+%packages
+@base
+@development
+@server-platform-devel
+samba-client
+lftp
+openssh-clients
+epel-release
+#$SNIPPET('func_install_if_enabled')
+%end
+
+%post --nochroot
+$SNIPPET('log_ks_post_nochroot')
+%end
+
+%post
+echo -e "alias net-pf-10 off\noptions ipv6 disable=1" >/etc/modprobe.d/ipv6.conf
+echo "NETWORKING_IPV6=no" >> /etc/sysconfig/network
+chkconfig ip6tables off
+cat >> /etc/security/limits.conf <<EOF
+*           soft    nproc           65535
+*           hard    nproc           65535
+*           soft    nofile          102400
+*           hard    nofile          204800
+EOF
+$SNIPPET('log_ks_post')
+# Start yum configuration
+$yum_config_stanza
+# End yum configuration
+$SNIPPET('post_install_kernel_options')
+$SNIPPET('post_install_network_config')
+$SNIPPET('func_register_if_enabled')
+$SNIPPET('download_config_files')
+$SNIPPET('koan_environment')
+$SNIPPET('redhat_register')
+$SNIPPET('cobbler_register')
+# Enable post-install boot notification
+$SNIPPET('post_anamon')
+# Start final steps
+$SNIPPET('kickstart_done')
+# End final steps
+%end
