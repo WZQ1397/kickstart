@@ -6,13 +6,14 @@
 
 > github
 
-> lantern
-
 > pycharm
 
-> Proxifier
-
 > cutepdf/pdfbinder
+
+网络部分：
+> lantern
+
+> Proxifier
 
 > xshell
 
@@ -23,3 +24,6 @@
 > https://sourceforge.net/projects/networkminer/
 
 > Angry IP Scanner
+
+文件传输：
+> Dukto
