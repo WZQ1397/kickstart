@@ -1,0 +1,120 @@
+cluster.name: zachcluster
+
+
+#################################### Node #####################################
+# from configuring them manually. You can tie this node to a specific name:
+#
+node.name: "Node01"
+
+# and to allow or deny to store the data.
+#
+# Allow this node to be eligible as a master node (enabled by default):
+#
+node.master: true
+# Allow this node to store data (enabled by default):
+#
+node.data: true
+
+#################################### Index ####################################
+# or analyzer definitions, translog settings, ...) for indices globally,
+# in this file.
+#
+# Note, that it makes more sense to configure index settings specifically for
+# a certain index, either when creating it or by using the index templates API.
+#
+# See <http://elasticsearch.org/guide/en/elasticsearch/reference/current/index-modules.html> and
+# <http://elasticsearch.org/guide/en/elasticsearch/reference/current/indices-create-index.html>
+# for more information.
+
+# Set the number of shards (splits) of an index (5 by default):
+#
+index.number_of_shards: 5
+
+# Set the number of replicas (additional copies) of an index (1 by default):
+#
+index.number_of_replicas: 1
+
+#################################### Paths ####################################
+
+#
+path.data: /elasticsearch/data
+#
+path.work: /elasticsearch/work
+#
+path.logs: /elasticsearch/logs
+path.plugins: /elasticsearch/plugins
+
+
+############################## Network And HTTP ###############################
+
+# Elasticsearch, by default, binds itself to the 0.0.0.0 address, and listens
+# on port [9200-9300] for HTTP traffic and on port [9300-9400] for node-to-node
+# communication. (the range means that if the port is busy, it will automatically
+# try the next port).
+
+# Set the bind address specifically (IPv4 or IPv6):
+#
+#network.bind_host: 192.168.0.1
+# set, it is automatically derived. It must point to an actual IP address.
+#
+#network.publish_host: 192.168.0.1
+
+# Set both 'bind_host' and 'publish_host':
+#
+#network.host: 192.168.0.1
+
+# Set a custom port for the node to node communication (9300 by default):
+#
+transport.tcp.port: 9300
+
+# Enable compression for all communication between nodes (disabled by default):
+#
+#transport.tcp.compress: true
+
+# Set a custom port to listen for HTTP traffic:
+#
+http.port: 9200
+
+# Set a custom allowed content length:
+#
+#http.max_content_length: 100mb
+
+# Disable HTTP completely:
+#
+#http.enabled: false
+
+
+################################ Slow Log ##################################
+
+# Shard level query and fetch threshold logging.
+
+#index.search.slowlog.threshold.query.warn: 10s
+#index.search.slowlog.threshold.query.info: 5s
+#index.search.slowlog.threshold.query.debug: 2s
+#index.search.slowlog.threshold.query.trace: 500ms
+
+#index.search.slowlog.threshold.fetch.warn: 1s
+#index.search.slowlog.threshold.fetch.info: 800ms
+#index.search.slowlog.threshold.fetch.debug: 500ms
+#index.search.slowlog.threshold.fetch.trace: 200ms
+
+#index.indexing.slowlog.threshold.index.warn: 10s
+#index.indexing.slowlog.threshold.index.info: 5s
+#index.indexing.slowlog.threshold.index.debug: 2s
+#index.indexing.slowlog.threshold.index.trace: 500ms
+
+index:
+  analysis:
+    analyzer:
+      ik:
+          alias: [ik_analyzer]
+          type: org.elasticsearch.index.analysis.IkAnalyzerProvider
+      ik_max_word:
+          type: ik
+          use_smart: false
+      ik_smart:
+          type: ik
+          use_smart: true
+
+index.analysis.analyzer.default.type: ik
+index.store.type: niofs

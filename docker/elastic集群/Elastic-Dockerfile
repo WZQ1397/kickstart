@@ -1,0 +1,19 @@
+FROM zach_elastic:5.0
+MAINTAINER zach.wang
+#docker build -t zach_elastic:5.0 .
+#复制配置文件到/docker/elasticsearch
+#docker run -p 9999:22 -p 9200:9200 -p 9300:9300 -t -i -v /docker/elasticsearch:/zach/elasticsearch zach_elastic:5.0
+
+COPY supervisord/elasticsearch.ini /etc/supervisor/conf.d/elasticsearch.ini
+
+RUN echo "export LC_ALL=C"
+
+ENV ES_HOME /zach/elasticsearch
+
+ADD elasticsearch /zach/elasticsearch
+VOLUME ["/zach/elasticsearch"]
+
+EXPOSE 9200
+EXPOSE 9300
+
+CMD ["/usr/bin/supervisord"]
