@@ -1,0 +1,25 @@
+FROM ubuntu:16.04
+MAINTAINER zach.wang
+
+ENV DEBIAN_FRONTEND noninteractive
+# 清空ubuntu更新包
+RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get update && sudo apt-get install -y vim wget curl openssh-server sudo supervisor
+RUN sudo wget -P /etc/apt/sources.list.d/ http://mirrors.aliyun.com/repo/ubuntu1404-lts.list && apt-get update
+RUN sudo mkdir -p /var/run/sshd && mkdir -p /var/log/supervisor
+COPY supervisord/sshd.ini /etc/supervisor/conf.d/sshd.ini
+
+# 将sshd的UsePAM参数设置成no
+RUN sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config && sed -i '/^PermitRootLogin/ s/yes/no/' /etc/ssh/sshd_config
+
+# 添加测试用户admin，密码admin，并且将此用户添加到sudoers里
+RUN useradd admin
+RUN echo "admin:admin" | chpasswd
+RUN echo "admin   ALL=(ALL)       ALL" >> /etc/sudoers
+
+# 把admin用户的shell改成bash，否则SSH登录Ubuntu服务器，命令行不显示用户名和目录 
+RUN usermod -s /bin/bash admin
+
+EXPOSE 22
+
+CMD ["/usr/bin/supervisord"]
