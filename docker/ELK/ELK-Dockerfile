@@ -1,0 +1,24 @@
+FROM zach_elastic:5.0
+MAINTAINER zach.wang
+#docker build -t zach_elk:5.0 .
+#复制配置文件到/docker/mongo
+#docker run -p 9999:22 -p 9200:9200 -p 9300:9300 -p 5601:5601 -t -i -v /docker/logstash:/zach/logstash -v /docker/elasticsearch:/zach/elasticsearch  zach_elk:5.0
+
+COPY supervisord/elk.ini /etc/supervisor/conf.d/elk.ini
+
+RUN echo "export LC_ALL=C"
+
+ENV LOGSTASH_HOME /zach/logstash
+ENV KIBANA_HOME /zach/kibana
+
+ADD logstash /zach/logstash
+ADD kibana /zach/kibana
+
+# 解决环境问题，否则logstash无法从log文件中采集日志。具体环境： Logstash 1.5, Ubuntu 14.04, Oracle JDK7
+RUN ln -s /lib/x86_64-linux-gnu/libcrypt.so.1 /usr/lib/x86_64-linux-gnu/libcrypt.so
+
+VOLUME ["/zach/logstash"]
+VOLUME ["/zach/elasticsearch"]
+EXPOSE 5601
+
+CMD ["/usr/bin/supervisord"]
