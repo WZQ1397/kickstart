@@ -24,3 +24,5 @@ label linux
 4、创建 iso 镜像：
 #/tmp/目录下执行
 > mkisofs -R -J -T -v --no-emul-boot --boot-load-size 4 --boot-info-table -V "CentOS 6.7 I386 boot disk" -b isolinux/isolinux.bin -c isolinux/boot.cat -o /root/boot.iso iso/
+
+<a href="http://wzq1397.1080pdy.com/">myhome</a>
