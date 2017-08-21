@@ -1,0 +1,41 @@
+FROM ubuntu:zach
+MAINTAINER zach.wang
+#docker build -t zach_mysql:5.6 .
+#复制配置文件到/docker/mysql
+#docker run -p 9999:22 -p 3306:3306 -t -i -v /docker/mysql/data:/zach/mysql/data zach_mysql:5.6
+ 
+## 修改root密码（因为默认密码为空）
+#mysql> use mysql;
+#mysql> UPDATE user SET Password=PASSWORD('你想要的密码') where USER='root';
+#mysql> FLUSH PRIVILEGES;
+#
+## 授权root账户远程登录，然后就可以通过navicat或者其他客户端工具连接到MySQL服务器了
+#mysql> grant ALL PRIVILEGES ON *.* to root@"%" identified by "root" WITH GRANT OPTION;
+#mysql> FLUSH PRIVILEGES;
+
+COPY supervisord/mysql.ini /etc/supervisor/conf.d/mysql.ini
+
+RUN sudo apt-get update && sudo apt-get install -y make cmake gcc g++ bison libncurses5-dev build-essential
+
+ADD mysql /zach/mysql
+
+RUN cd /zach/mysql && cmake . -DCMAKE_INSTALL_PREFIX=/zach/mysql -DMYSQL_DATADIR=/zach/mysql/data -DSYSCONFDIR=/etc -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_ARCHIVE_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_PERFSCHEMA_STORAGE_ENGINE=1 -DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 -DWITHOUT_FEDERATED_STORAGE_ENGINE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DENABLED_LOCAL_INFILE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=/software/mysql-5.6.22/mysql.sock -DMYSQL_TCP_PORT=3306 -DMYSQL_USER=mysql -DCOMPILATION_COMMENT="lq-edition" -DENABLE_DTRACE=0 -DOPTIMIZER_TRACE=1 -DWITH_DEBUG=1 && make && make install
+
+RUN useradd mysql
+RUN echo "mysql:mysql" | chpasswd
+RUN echo "mysql   ALL=(ALL)       ALL" >> /etc/sudoers
+
+RUN cd /zach/mysql && sudo chown -R mysql:mysql ./
+
+COPY my.cnf /etc/my.cnf
+RUN sudo chown mysql:mysql /etc/my.cnf
+
+RUN cd /zach/mysql && sudo ./scripts/mysql_install_db --user=mysql --basedir=/zach/mysql --datadir=/zach/mysql/data/
+
+ENV MYSQL_HOME /zach/mysql
+
+VOLUME ["/zach/mysql/data"]
+
+EXPOSE 3306
+
+CMD ["/usr/bin/supervisord"]
