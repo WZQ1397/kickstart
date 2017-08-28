@@ -1,0 +1,14 @@
+<pool type='dir'>
+  <name>mysqldb</name>
+  <uuid>a9dec1d6-7ee6-4455-b4a4-63589c9eca1a</uuid>
+  <source>
+  </source>
+  <target>
+    <path>/data/mysqldb</path>
+    <permissions>
+      <mode>0711</mode>
+      <owner>-1</owner>
+      <group>-1</group>
+    </permissions>
+  </target>
+</pool>

@@ -1,0 +1,45 @@
+<domain type='kvm'>
+  <name>storage3</name>
+  <uuid>643FF3C9-1437-436F-BF9F-743639A436F9</uuid>
+  <memory unit='GiB'>2</memory>
+  <currentMemory unit='GiB'>2</currentMemory>
+  <vcpu>2</vcpu>
+  <cpu mode='host-passthrough' />
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <boot dev='cdrom'/>
+    <boot dev='hd'/>
+    <bootmenu enable='yes'/>
+  </os>
+  <devices>
+    <controller type='usb' index='0' model='pci-ohci' />
+    <!--<controller type='scsi' index='0' model='virtio-scsi'/>-->
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/data/storage3/root.qcow2'/>
+      <target dev='vda'/>
+    </disk>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/data/storage3/swap.qcow2'/>
+      <target dev='vdb'/>
+    </disk>
+    <disk type='block' device='disk'>
+      <!--<driver name='qemu' type='raw'/>-->
+      <source dev='/dev/sdb'/>
+      <target dev='vdc'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <!-- <source file='/data/images/debian-7.6.0-amd64-CD-1.iso'/> -->
+      <target dev='hda'/>
+      <readonly/>
+    </disk>
+    <interface type='network'>
+      <mac address='52:54:00:f6:37:67'/>
+      <model type='virtio'/>
+      <source network='default'/>
+    </interface>
+    <input type='tablet' bus='usb'/>
+    <graphics type='vnc' port='5900'/>
+  </devices>
+</domain>

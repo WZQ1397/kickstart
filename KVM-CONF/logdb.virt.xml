@@ -1,0 +1,46 @@
+<domain type='kvm'>
+  <name>logdb</name>
+  <uuid>F20976B9-7523-448F-87E6-FA662021DC27</uuid>
+  <memory unit='GiB'>32</memory>
+  <currentMemory unit='GiB'>4</currentMemory>
+  <vcpu>8</vcpu>
+  <cpu mode='host-passthrough' />
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <boot dev='cdrom'/>
+    <boot dev='hd'/>
+    <bootmenu enable='yes'/>
+  </os>
+  <devices>
+    <!--<emulator>/usr/bin/kvm</emulator>-->
+    <controller type='usb' index='0' model='nec-xhci' />
+    <controller type='scsi' index='0' model='virtio-scsi'/>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/data/logdb/root.qcow2'/>
+      <target dev='vda'/>
+    </disk>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/data/logdb/swap.qcow2'/>
+      <target dev='vdb'/>
+    </disk>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/data/mysqldb/logdb'/>
+      <target dev='vdc'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <!--<source file='/data/iso/CentOS-6.5-x86_64-minimal.iso'/>-->
+      <target dev='sda'/>
+      <readonly/>
+    </disk>
+    <interface type='network'>
+      <mac address='52:54:00:90:0e:1e'/>
+      <model type='virtio'/>
+      <source network='default'/>
+    </interface>
+    <input type='tablet' bus='usb'/>
+    <graphics type='vnc' port='5903'/>
+  </devices>
+</domain>
