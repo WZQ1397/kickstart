@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ceph-pv01
+spec:
+  capacity:
+    storage: 256Gi
+  accessModes:
+    - ReadWriteOnce
+  rbd:
+    monitors:
+     - 172.16.8.243:6789
+     - 172.16.8.241:6789
+    pool: blue_hd
+    image: vol1
+    user: zach
+    secretRef:
+      name: ceph-secret-zachstorge
+    fsType: ext4
+    readOnly: false
+  persistentVolumeReclaimPolicy: Recycle
