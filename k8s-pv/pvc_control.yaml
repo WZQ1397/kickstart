@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redispv
+  labels:
+    name: redispv
+spec:
+  replicas: 1
+  selector:
+    name: redispv
+  template:
+    metadata:
+      labels:
+        name: redispv
+    spec:
+      containers:
+      - name: redispv
+        image: redis
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 11211
+        volumeMounts:
+        - mountPath: /mnt/
+          name: ceph-vol01
+      volumes:
+      - name: ceph-vol01
+        persistentVolumeClaim:
+          claimName: ceph-claim1

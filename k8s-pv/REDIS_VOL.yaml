@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: redis-vol
+  labels:
+    name: redis-vol
+spec:
+  replicas: 1
+  selector:
+    name: redis-vol
+  template:
+    metadata:
+      labels:
+        name: redis-vol
+    spec:
+      containers:
+      - name: redis-vol
+        image: redis
+        env:
+        - name: GET_HOSTS_FROM
+          value: env
+        ports:
+        - containerPort: 11211
+        volumeMounts:
+        - mountPath: /mnt/rbd
+          name: speed5
+      volumes:
+        - name: speed5
+          rbd:
+            monitors:
+              - 172.16.8.243:6789
+              - 172.16.8.241:6789
+            pool: file_hd
+            image: speed5
+            user: zach
+            secretRef:
+              name: ceph-secret-zachstorge
+            fsType: ext4
+            readOnly: false
