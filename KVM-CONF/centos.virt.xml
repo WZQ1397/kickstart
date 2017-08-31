@@ -1,0 +1,43 @@
+<domain type='kvm'>
+  <name>centos</name>
+  <uuid>36D5C998-1E6B-489C-9F5D-69387C9748A0</uuid>
+  <memory unit='GiB'>2</memory>
+  <currentMemory unit='GiB'>2</currentMemory>
+  <vcpu>2</vcpu>
+  <cpu mode='host-passthrough' />
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <boot dev='cdrom'/>
+    <boot dev='hd'/>
+    <bootmenu enable='yes'/>
+  </os>
+  <devices>
+    <emulator>/usr/bin/kvm</emulator>
+    <!--<controller type='pci' index='0' model='pcie-root'/>
+    <controller type='pci' index='1' model='dmi-to-pci-bridge' />-->
+    <controller type='usb' index='0' model='nec-xhci' />
+    <controller type='scsi' index='0' model='virtio-scsi'/>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/data/centos/root.qcow2'/>
+      <target dev='vda'/>
+    </disk>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/data/centos/swap.qcow2'/>
+      <target dev='vdb'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <!--<source file='/data/iso/CentOS-6.5-x86_64-minimal.iso'/>-->
+      <target dev='sda'/>
+      <readonly/>
+    </disk>
+    <interface type='network'>
+      <mac address='52:54:00:66:bd:ef'/>
+      <model type='virtio'/>
+      <source network='default'/>
+    </interface>
+    <input type='tablet' bus='usb'/>
+    <graphics type='vnc' port='-1'/>
+  </devices>
+</domain>
