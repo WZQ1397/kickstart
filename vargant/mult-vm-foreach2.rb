@@ -12,10 +12,15 @@ Vagrant.configure("2") do |config|
          node.vm.synced_folder "/share", "/home/vagrant/share"
          # VirtaulBox相关配置
          node.vm.provider :vmware_fusion do |v|
-            # 设置虚拟机的内存大小
-            v.vmx["memory"] = 2048
-            # 设置虚拟机的CPU个数
-            v.vmx["cpus"] = 1
+            if hostname == "db*" 
+               v.vmx["memory"] = 16384
+               v.vmx["cpus"] = 4
+            elsif hostname == "computer*"
+               v.vmx["memory"] = 20480
+               v.vmx["cpus"] = 8
+            else
+               v.vmx["memory"] = 8192
+               v.vmx["cpus"] = 4
          end
       end
    end
