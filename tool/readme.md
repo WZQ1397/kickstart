@@ -43,3 +43,7 @@
 
 文件管理
 > totalcommder
+
+照片处理
+> moldiv
+> snapseed
