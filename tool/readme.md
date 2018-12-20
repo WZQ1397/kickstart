@@ -57,3 +57,7 @@ SNMP
 JAVA TRACE
 
 > https://alibaba.github.io/arthas/commands.html
+
+邮件发送（windows）
+
+> blat
