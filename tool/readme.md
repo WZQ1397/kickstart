@@ -4,11 +4,12 @@
 
 > typora
 
-> github
+> github desktop
 
-> pycharm
+> pycharm idea(java)
 
-> cutepdf/pdfbinder
+PDF tools:
+> cutepdf/pdfbinder/pdf24
 
 网络部分：
 > lantern
