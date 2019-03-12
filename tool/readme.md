@@ -35,6 +35,7 @@ PDF tools:
 
 日志：
 > WebLog.Expert
+> logview
 
 放大：
 > ZoomIt
@@ -64,5 +65,7 @@ JAVA TRACE
 > blat
 
 油猴Tampermonkey
+
 视频录制：
-Camtasia Studio
+> Camtasia Studio
+> Bandicam 
