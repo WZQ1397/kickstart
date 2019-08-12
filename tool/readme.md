@@ -21,6 +21,8 @@ PDF tools:
 
 > xshell
 
+> Mobaxterm
+
 > winsshd
 
 > Advanced IP Scanner
@@ -35,6 +37,8 @@ PDF tools:
 > FileZilla
 
 > Serv-U
+
+> ftprush
 
 日志：
 > WebLog.Expert
