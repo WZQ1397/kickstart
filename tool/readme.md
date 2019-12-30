@@ -5,8 +5,9 @@
 > typora
 
 > github desktop
+ 
+> pycharm idea(java)  debug神器 ==> PySnooper
 
-> pycharm idea(java)
 
 网站统计：
 > matomo
