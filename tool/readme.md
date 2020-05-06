@@ -88,3 +88,5 @@ ER/UML绘制工具
 > yEd Graph Editor
 > diaw
 
+截图+贴图
+> snipaste
