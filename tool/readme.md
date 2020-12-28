@@ -16,7 +16,7 @@ PDF tools:
 > cutepdf/pdfbinder/pdf24/ICECREAM PDF CONVERTER
 
 网络部分：
-> lantern
+> lantern/HOXX/佛跳墙
 
 > Proxifier
 
@@ -90,3 +90,13 @@ ER/UML绘制工具
 
 截图+贴图
 > snipaste
+
+内存优化
+> Mem Reduct
+
+windows 系统优化
+> CC cleaner
+> DISM++
+
+Linux ghost备份
+> g4l
