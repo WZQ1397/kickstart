@@ -100,3 +100,4 @@ windows 系统优化
 
 Linux ghost备份
 > g4l
+> clonezilla
