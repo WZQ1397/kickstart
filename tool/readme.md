@@ -32,6 +32,16 @@ PDF tools:
 
 > Angry IP Scanner
 
+> gping
+
+> iftop
+
+> ifstat
+
+> acrylic wifi professional
+
+> free port scaner
+
 文件传输：
 > Dukto
 
@@ -56,6 +66,7 @@ PDF tools:
 
 照片处理
 > moldiv
+
 > snapseed
 
 http接口
@@ -79,6 +90,8 @@ JAVA TRACE
 
 视频录制：
 > Camtasia Studio
+
+
 > Bandicam 
 
 git:
@@ -86,6 +99,7 @@ git:
 
 ER/UML绘制工具
 > yEd Graph Editor
+
 > diaw
 
 截图+贴图
@@ -96,17 +110,22 @@ ER/UML绘制工具
 
 windows 系统优化
 > CC cleaner
+
 > DISM++
 
 Linux ghost备份
 > g4l
+
 > clonezilla
 
 web-ssh
 > docker => consol/centos-xfce-vnc
+
 > ttyd
 
-网络
-> gping
-> iftop
-> ifstat
+数据库
+> NoSQLBooster for MongoDB
+
+> Robo 3T
+
+> RDM
